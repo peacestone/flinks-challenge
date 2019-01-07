@@ -31,65 +31,67 @@ namespace flinksChallenge
             ICapabilities cap = options.ToCapabilities();
 
 
-            Driver = new FirefoxDriver(options);
-            //Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
-            //Driver.Navigate().GoToUrl("https://challenge.flinks.io/Authorize/1134910741");
-            Driver.Navigate().GoToUrl("file:///C:/Users/chani/Desktop/code/static-site/index.html");
+            Driver = new FirefoxDriver();
+            Driver.Navigate().GoToUrl("https://challenge.flinks.io/Authorize/1133408938");
+            //Driver.Navigate().GoToUrl("file:///C:/Users/chani/Desktop/code/static-site/index.html");
 
 
 
 
-            //foreach (string username in passwords)
-            //{
-            //    foreach (string password in passwords)
-            //    {
-            //        Console.WriteLine("Password: " + password + "username: " + username);
-            //        FillForm(username, password);
-            //    }
+            foreach (string username in passwords)
+            {
+                Console.WriteLine("Password: " + username + "username: " + username);
+                FillForm(username, username);
 
-            //}
+                //    foreach (string password in passwords)
+                //    {
+                //       
+                //    }
 
-            FillForm("123", "345");
+            }
+
+
+
         }
 
-         private void FillForm(string username , string password)
+        private void FillForm(string username , string password)
         {
             Console.WriteLine(Driver.Url);
+            Driver.Manage().Cookies.DeleteAllCookies();
+            System.Threading.Thread.Sleep(500);
 
-            //if (Driver.Url != "https://challenge.flinks.io/Authorize/414508646")
-            // {
-            //    //Driver.Navigate().GoToUrl("https://challenge.flinks.io/Authorize/1134910741");
-                
-            // }
-            //ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
-            //chromeDriverService.HideCommandPromptWindow = true;
-            //WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(25));
-            //IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.Name("password")));
-            //wait.
-            IWebElement hoverElement = Driver.FindElement(By.Id("cool"));
-            IWebElement nonHoverElement = Driver.FindElement(By.Id("rock"));
-            IWebElement button = Driver.FindElement(By.Id("cool"));
+            if (Driver.Url == "https://challenge.flinks.io/")
+            {
+                Driver.Navigate().GoToUrl("https://challenge.flinks.io/Authorize/1133408938");
 
-            Actions builder = new Actions(Driver);
-            builder.MoveToElement(button)
-            .MoveToElement(nonHoverElement)
-            .MoveToElement(hoverElement).Perform();
+            }
 
-
-
-            //IWebElement usernameElement = Driver.FindElement(By.Name("username"));
-            //usernameElement.SendKeys(username);
-
-            //IWebElement passwordElement = Driver.FindElement(By.Name("password"));
-            //passwordElement.SendKeys(password);
-
+            //IWebElement hoverElement = Driver.FindElement(By.Id("cool"));
+            //IWebElement nonHoverElement = Driver.FindElement(By.Id("rock"));
+            //IWebElement button = Driver.FindElement(By.Id("cool"));
 
             //Actions builder = new Actions(Driver);
+            //builder.MoveToElement(button)
+            //.MoveToElement(nonHoverElement)
+            //.MoveToElement(hoverElement).Perform();
 
-            //builder.MoveToElement(usernameElement).Perform();
 
-            //System.Threading.Thread.Sleep(500);
-            //passwordElement.Submit();
+
+            IWebElement usernameElement = Driver.FindElement(By.Name("username"));
+            usernameElement.SendKeys(username);
+
+            IWebElement passwordElement = Driver.FindElement(By.Name("password"));
+            passwordElement.SendKeys(password);
+
+
+            Actions builder = new Actions(Driver);
+
+            builder.MoveToElement(usernameElement)
+            .MoveToElement(passwordElement)
+            .MoveToElement(usernameElement)
+            .Perform();
+
+            passwordElement.Submit();
             //System.Threading.Thread.Sleep(500);
 
 
