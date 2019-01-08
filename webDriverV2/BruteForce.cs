@@ -32,8 +32,19 @@ namespace flinksChallenge
 
 
             Driver = new FirefoxDriver();
-            Driver.Navigate().GoToUrl("https://challenge.flinks.io/Authorize/1133408938");
-            //Driver.Navigate().GoToUrl("file:///C:/Users/chani/Desktop/code/static-site/index.html");
+            Driver.Navigate().GoToUrl("https://challenge.flinks.io/");
+            System.Threading.Thread.Sleep(5000);
+            System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> aTags = Driver.FindElements(By.TagName("a"));
+
+            IWebElement startChallenge = aTags[2];
+            IJavaScriptExecutor jsExecuter = (IJavaScriptExecutor)Driver;
+            jsExecuter.ExecuteScript("document.getElementsByTagName('a')[2].scrollIntoView(true);", startChallenge);
+
+            Actions action = new Actions(Driver);
+            action
+            .MoveToElement(startChallenge)
+            .Click().Perform();
+
 
 
 
@@ -57,14 +68,14 @@ namespace flinksChallenge
         private void FillForm(string username , string password)
         {
             Console.WriteLine(Driver.Url);
-            Driver.Manage().Cookies.DeleteAllCookies();
+            //Driver.Manage().Cookies.DeleteAllCookies();
             System.Threading.Thread.Sleep(500);
 
-            if (Driver.Url == "https://challenge.flinks.io/")
-            {
-                Driver.Navigate().GoToUrl("https://challenge.flinks.io/Authorize/1133408938");
+            //if (Driver.Url == "https://challenge.flinks.io/")
+            //{
+            //    Driver.Navigate().GoToUrl("https://challenge.flinks.io/Authorize/604742222");
 
-            }
+            //}
 
             //IWebElement hoverElement = Driver.FindElement(By.Id("cool"));
             //IWebElement nonHoverElement = Driver.FindElement(By.Id("rock"));
