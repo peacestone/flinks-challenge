@@ -45,7 +45,14 @@ namespace flinksChallenge
             //    FillForm(username, username);
             //}
             FillForm("2222", "2222");
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
+            bool isSuccessful = wait.Until(d => d.PageSource.Contains("Congrats! You are in."));
 
+            if (isSuccessful)
+            {
+                ScrapeTokenAndClickBack();
+                FillForm("2222", "2222");
+            }
 
 
         }
@@ -73,36 +80,24 @@ namespace flinksChallenge
             .MoveToElement(usernameElement)
             .Build()
             .Perform();
-            Console.WriteLine("chani is :" + password);
             passwordElement.Submit();
-            Console.WriteLine(password == "2222");
 
-            if (password == "2222")
-            {
-                Console.WriteLine("this rocks the house");
-                string a = "chani is ";
-            };
-            if (Driver.FindElements(By.Name("username")).Count == 0)
-            {
-                    
-            }
 
-            bool isSuccessful = wait.Until(d => d.PageSource.Contains("Congrats! You are in."));
-            if (isSuccessful)
-            {
-                string token = Driver.FindElements(By.TagName("b"))[0].Text;
-                Tokens.Add(token);
-                Console.WriteLine("got token: " + token);
-                IWebElement backAnchorTag = Driver.FindElement(By.CssSelector("p > a"));
 
-                IJavaScriptExecutor jsExecuter = (IJavaScriptExecutor)Driver;
-                jsExecuter.ExecuteScript("document.querySelector('p > a').scrollIntoView(true)");
-                Actions test = new Actions(Driver);
-                test.Click(backAnchorTag).Perform();
-            
+        }
 
-            }
+        private string ScrapeTokenAndClickBack()
+        {
+            string token = Driver.FindElements(By.TagName("b"))[0].Text;
+            Tokens.Add(token);
+            Console.WriteLine("got token: " + token);
+            IWebElement backAnchorTag = Driver.FindElement(By.CssSelector("p > a"));
 
+            IJavaScriptExecutor jsExecuter = (IJavaScriptExecutor)Driver;
+            jsExecuter.ExecuteScript("document.querySelector('p > a').scrollIntoView(true)");
+            Actions successActions = new Actions(Driver);
+            successActions.Click(backAnchorTag).Perform();
+            return token;
         }
 
         private IWebDriver Driver { get; set; }
