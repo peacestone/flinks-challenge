@@ -15,7 +15,7 @@ namespace flinksChallenge
 {
     class BruteForce
     {
-
+        
 
         public void Attack()
         {
@@ -39,12 +39,12 @@ namespace flinksChallenge
 
 
 
-            foreach (string username in passwords)
-            {
-                Console.WriteLine("Password: " + username + " username: " + username);
-                FillForm(username, username);
-            }
-            //FillForm("2223", "2223");
+            //foreach (string username in passwords)
+            //{
+            //    Console.WriteLine("Password: " + username + " username: " + username);
+            //    FillForm(username, username);
+            //}
+            FillForm("2222", "2222");
 
 
 
@@ -55,16 +55,14 @@ namespace flinksChallenge
             Console.WriteLine(Driver.Url);
             //Driver.Manage().Cookies.DeleteAllCookies();
             System.Threading.Thread.Sleep(500);
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            //Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
 
-            //var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            //wait.Until(d => d.FindElement);
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
+            IWebElement usernameElement = wait.Until(d => d.FindElement(By.Name("username")));
+            IWebElement passwordElement = wait.Until(d => d.FindElement(By.Name("password")));
 
-            IWebElement usernameElement = Driver.FindElement(By.Name("username"));
             usernameElement.SendKeys(username);
-
-            IWebElement passwordElement = Driver.FindElement(By.Name("password"));
             passwordElement.SendKeys(password);
 
 
@@ -73,16 +71,24 @@ namespace flinksChallenge
             builder.MoveToElement(usernameElement)
             .MoveToElement(passwordElement)
             .MoveToElement(usernameElement)
+            .Build()
             .Perform();
-
+            Console.WriteLine("chani is :" + password);
             passwordElement.Submit();
+            Console.WriteLine(password == "2222");
 
+            if (password == "2222")
+            {
+                Console.WriteLine("this rocks the house");
+                string a = "chani is ";
+            };
             if (Driver.FindElements(By.Name("username")).Count == 0)
             {
-
+                    
             }
 
-            if (Driver.PageSource.Contains("Congrats! You are in."))
+            bool isSuccessful = wait.Until(d => d.PageSource.Contains("Congrats! You are in."));
+            if (isSuccessful)
             {
                 string token = Driver.FindElements(By.TagName("b"))[0].Text;
                 Tokens.Add(token);
@@ -91,14 +97,12 @@ namespace flinksChallenge
 
                 IJavaScriptExecutor jsExecuter = (IJavaScriptExecutor)Driver;
                 jsExecuter.ExecuteScript("document.querySelector('p > a').scrollIntoView(true)");
-                builder.Click(backAnchorTag).Perform();
+                Actions test = new Actions(Driver);
+                test.Click(backAnchorTag).Perform();
             
 
             }
 
-
-
-            //Console.WriteLine("page tile is: " + driver.Title);
         }
 
         private IWebDriver Driver { get; set; }
