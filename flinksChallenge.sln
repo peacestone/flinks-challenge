@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flinksChallenge", "webDriverV2\flinksChallenge.csproj", "{84E9E797-F15A-42BF-A6FF-B2BF009B3670}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flinksChallenge", "flinksChallenge\flinksChallenge.csproj", "{84E9E797-F15A-42BF-A6FF-B2BF009B3670}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

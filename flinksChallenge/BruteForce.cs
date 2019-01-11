@@ -49,10 +49,8 @@ namespace flinksChallenge
                         FillForm(username, username);
 
                     }
-                    ScrapeTokenAndClickBack();
                 }
             }
-            //FillForm("2222", "2222");
 
 
         }
@@ -60,9 +58,7 @@ namespace flinksChallenge
         private void FillForm(string username , string password)
         {
             Console.WriteLine(Driver.Url);
-            //Driver.Manage().Cookies.DeleteAllCookies();
             System.Threading.Thread.Sleep(500);
-            //Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
 
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
@@ -102,8 +98,15 @@ namespace flinksChallenge
 
         private bool IsSuccessfulLogin()
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            return wait.Until(d => d.PageSource.Contains("Congrats! You are in."));
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
+                return wait.Until(d => d.PageSource.Contains("Congrats! You are in."));
+            }
+            catch {
+                return false;
+            }
+
         }
 
 
