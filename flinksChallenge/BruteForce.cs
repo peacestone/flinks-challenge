@@ -24,7 +24,7 @@ namespace flinksChallenge
 
             Driver = new FirefoxDriver();
             Driver.Navigate().GoToUrl("https://challenge.flinks.io/");
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(1000);
             System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> aTags = Driver.FindElements(By.TagName("a"));
 
             IWebElement startChallenge = aTags[2];
@@ -49,6 +49,8 @@ namespace flinksChallenge
                         FillForm(username, username);
 
                     }
+                    Console.WriteLine("no more tokens to scrape");
+                    break;
                 }
             }
 
@@ -59,6 +61,9 @@ namespace flinksChallenge
         {
             Console.WriteLine(Driver.Url);
             System.Threading.Thread.Sleep(500);
+            Driver.Manage().Cookies.DeleteCookieNamed(".AspNetCore.Antiforgery.w5W7x28NAIs");
+            Driver.Manage().Cookies.DeleteCookieNamed("ARRAffinity");
+            Driver.Navigate().Refresh();
 
 
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
